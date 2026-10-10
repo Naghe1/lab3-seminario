@@ -6,9 +6,8 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/)
 y el proyecto usa [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [Unreleased]
-
 ### Added
-
+- Formato de recibo con alineacion de columnas y comando `receipt` en la CLI.
 ### Changed
 
 ### Fixed
