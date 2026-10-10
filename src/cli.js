@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { products, searchProducts, formatPrice } from './index.js';
+import { buildReceipt } from './receipt.js'; // 1. Importamos tu función del recibo
 
 const commands = {
   list() {
@@ -19,7 +20,34 @@ const commands = {
     }
   },
 
-  // Los comandos nuevos se registran debajo de esta línea
+  receipt(...itemsArgs) {
+    const items = [];
+
+    for (const arg of itemsArgs) {
+     const [sku, quantityStr] = arg.split(':');
+      const quantity = parseInt(quantityStr, 10) || 1;
+
+      const product = products.find(p => p.sku === sku);
+
+      if (product) {
+        items.push({
+          name: product.name,
+          price: product.price,
+          quantity: quantity
+        });
+      } else {
+        console.warn(`Advertencia: El producto con SKU "${sku}" no existe en el catálogo.`);
+      }
+    }
+
+    if (items.length === 0) {
+      console.log('No se ingresaron productos válidos para generar el recibo.');
+      return;
+    }
+
+    const receiptText = buildReceipt(items);
+    console.log(receiptText);
+  },
 };
 
 const [, , name, ...args] = process.argv;
